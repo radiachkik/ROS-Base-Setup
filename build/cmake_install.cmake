@@ -132,7 +132,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/radi/householder/build/mybot_moveit/cmake_install.cmake")
   include("/home/radi/householder/build/mybot_navigation/cmake_install.cmake")
   include("/home/radi/householder/build/mybot_object_recognition/cmake_install.cmake")
-  include("/home/radi/householder/build/ur5_description/cmake_install.cmake")
+  include("/home/radi/householder/build/openai_ros/cmake_install.cmake")
 
 endif()
 
