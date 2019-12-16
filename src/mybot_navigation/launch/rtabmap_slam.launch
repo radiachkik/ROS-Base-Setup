@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+    <!-- RGBD synchronization -->
+    <node pkg="nodelet" type="nodelet" name="rgbd_sync" args="standalone rtabmap_ros/rgbd_sync" output="screen" ns="rtabmap">
+		<remap from="rgb/image"       to="/camera/color/image_raw"/>
+		<remap from="depth/image"     to="/camera/depth/image_raw"/>
+		<remap from="rgb/camera_info" to="/camera/color/camera_info"/>
+		<remap from="rgbd_image"      to="rgbd_image"/> <!-- output -->
+
+		<!-- Should be true for not synchronized camera topics (e.g., false for kinectv2, zed, realsense, true for xtion, kinect360)-->
+		<param name="approx_sync"       value="true"/> 
+    </node>
+
+	 <!-- Construct and voxelize the point cloud (for fast visualization in rviz) -->
+    <node pkg="nodelet" type="nodelet" name="points_xyzrgb" args="standalone rtabmap_ros/point_cloud_xyzrgb" ns="rtabmap">
+		<remap from="rgbd_image"      to="rgbd_image/compressed"/>
+		<remap from="cloud"           to="voxel_cloud" />
+
+		<param name="queue_size" type="int" value="10"/>
+		<param name="voxel_size" type="double" value="0.01"/>
+    </node>
+
+    <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" ns="rtabmap" args="-delete_db_on_start">
+    <!--node name="rtabmap_slam" pkg="rtabmap_ros" type="rtabmap" output="screen" ns="rtabmap"-->
+		<param name="frame_id" type="string" value="chassis"/>
+
+		<param name="subscribe_depth" type="bool" value="true"/>
+		<param name="subscribe_rgbd" type="bool" value="false"/>
+		<param name="subscribe_scan" type="bool" value="true"/>
+
+		<remap from="rgb/image"       to="/camera/color/image_raw"/>
+		<remap from="odom" to="/odom"/>
+		<remap from="scan" to="/mybot/laser/scan"/>
+		<remap from="rgbd_image" to="rgbd_image"/>
+		<remap from="depth/image"     to="/camera/depth/image_raw"/>
+		<remap from="rgb/camera_info" to="/camera/color/camera_info"/>
+
+		<remap from="grid_map" to="/map"/>
+
+		<param name="localization" type="bool" value="false"/>
+		<param name="Mem/IncrementalMemory" type="string" value="true"/> <!-- immer das Gegenteil von Localization -->
+
+		<remap from="rtabmap/get_map_data" to="get_map_data"/>
+
+		<param name="queue_size" type="int" value="30"/>
+
+		<!-- RTAB-Map's parameters -->
+		<param name="RGBD/NeighborLinkRefining" type="string" value="true"/>
+		<param name="RGBD/OptimizeMaxError"     type="double" value="0.0"/>
+		<param name="Optimizer/Robust" 	  	  type="string" value="true"/>
+		<param name="RGBD/ProximityBySpace"     type="string" value="true"/>
+		<param name="RGBD/AngularUpdate"        type="string" value="0.01"/>
+		<param name="RGBD/LinearUpdate"         type="string" value="0.01"/>
+		<param name="RGBD/OptimizeFromGraphEnd" type="string" value="false"/>
+		<param name="Grid/FromDepth"            type="string" value="false"/> <!-- occupancy grid from lidar -->
+		<param name="Reg/Force3DoF"             type="string" value="true"/>
+		<param name="Reg/Strategy"              type="string" value="1"/> <!-- 1=ICP -->
+		<param name="RGBD/ProximityPathMaxNeighbors" type="string" value="10"/>
+
+		<!-- ICP parameters -->
+		<param name="Icp/VoxelSize"                 type="string" value="0.05"/>
+		<param name="Icp/MaxCorrespondenceDistance" type="string" value="0.1"/>
+
+		<param name="odom_frame_id" value="odom"/> 
+		<param name="odom_tf_linear_variance" value="0.0001"/> <!-- adjust depending on real odom error -->
+		<param name="odom_tf_angular_variance" value="0.0005"/> <!-- adjust depending on real odom error -->
+    </node>
+
+
+	<!-- Start navigation -->
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+        <rosparam command="load" file="$(find mybot_navigation)/config/costmap_common_params.yaml" ns="global_costmap" />
+        <rosparam command="load" file="$(find mybot_navigation)/config/costmap_common_params.yaml" ns="local_costmap" />
+        <rosparam command="load" file="$(find mybot_navigation)/config/local_costmap_params.yaml" />
+        <rosparam command="load" file="$(find mybot_navigation)/config/global_costmap_params.yaml" />
+        <rosparam command="load" file="$(find mybot_navigation)/config/base_local_planner_params.yaml" />
+
+		<remap from="cmd_vel" to="cmd_vel"/>
+		<remap from="odom" to="odom"/>
+		<remap from="scan" to="mybot/laser/scan"/>
+		<param name="move_base/DWAPlannerROS/yaw_goal_tolerance" value="1.0"/>
+		<param name="move_base/DWAPlannerROS/xy_goal_tolerance" value="1.0"/>
+	</node>
+
+</launch>
+

@@ -1,0 +1,121 @@
+# MoveIt-specific simulation settings
+moveit_sim_hw_interface:
+  joint_model_group: controllers_initial_group_
+  joint_model_group_pose: controllers_initial_pose_
+# Settings for ros_control control loop
+generic_hw_control_loop:
+  loop_hz: 300
+  cycle_time_error_threshold: 0.01
+# Settings for ros_control hardware interface
+hardware_interface:
+  joints:
+    - virutal_joint
+    - gripper_extension_1
+    - gripper_extension_2
+    - gripper_extension_3
+    - gripper_extension_4
+    - gripper_extension_5
+    - arm_baser
+    - palm_left_finger
+    - left_finger_tip
+    - palm_right_finger
+    - right_finger_tip
+    - left_wheel_help_hinge
+    - left_wheel_hinge
+    - right_wheel_help_hinge
+    - right_wheel_hinge
+  sim_control_mode: 1  # 0: position, 1: velocity
+# Publish all joint states
+# Creates the /joint_states topic necessary in ROS
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50
+controller_list:
+  - name: move_group/arm_controller
+    action_ns: follow_joint_trajectory
+    default: True
+    type: FollowJointTrajectory
+    joints:
+      - gripper_extension_1
+      - gripper_extension_2
+      - gripper_extension_3
+      - gripper_extension_4
+  - name: move_group/hand_controller
+    action_ns: follow_joint_trajectory
+    default: True
+    type: FollowJointTrajectory
+    joints:
+      - gripper_extension_5
+      - arm_baser
+      - palm_left_finger
+      - left_finger_tip
+      - palm_right_finger
+      - right_finger_tip
+hand_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+    - gripper_extension_5
+    - arm_baser
+    - palm_left_finger
+    - left_finger_tip
+    - palm_right_finger
+    - right_finger_tip
+  gains:
+    gripper_extension_5:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    arm_baser:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    palm_left_finger:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    left_finger_tip:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    palm_right_finger:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    right_finger_tip:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+arm_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+    - gripper_extension_1
+    - gripper_extension_2
+    - gripper_extension_3
+    - gripper_extension_4
+  gains:
+    gripper_extension_1:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    gripper_extension_2:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    gripper_extension_3:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    gripper_extension_4:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1

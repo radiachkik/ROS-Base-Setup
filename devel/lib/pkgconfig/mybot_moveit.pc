@@ -1,0 +1,8 @@
+prefix=/home/radi/householder/devel
+
+Name: mybot_moveit
+Description: Description of mybot_moveit
+Version: 0.3.0
+Cflags: 
+Libs: -L/home/radi/householder/devel/lib 
+Requires: 

@@ -1,0 +1,13 @@
+digraph G {
+"chassis" -> "link"[label="Broadcaster: /kinect_rotation\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 54.626 sec old)\nBuffer length: 0.000 sec\n"];
+"map" -> "chassis"[label="Broadcaster: /gazebo\nAverage rate: 20.303 Hz\nMost recent transform: 54.601 ( 0.025 sec old)\nBuffer length: 3.300 sec\n"];
+"chassis" -> "hokuyo"[label="Broadcaster: /rob_st_pub\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 54.626 sec old)\nBuffer length: 0.000 sec\n"];
+"map" -> "odom"[label="Broadcaster: /rtabmap/rtabmap_slam\nAverage rate: 20.315 Hz\nMost recent transform: 54.689 ( -0.063 sec old)\nBuffer length: 3.298 sec\n"];
+"chassis" -> "right_wheel"[label="Broadcaster: /gazebo\nAverage rate: 20.309 Hz\nMost recent transform: 54.601 ( 0.025 sec old)\nBuffer length: 3.299 sec\n"];
+"chassis" -> "left_wheel"[label="Broadcaster: /gazebo\nAverage rate: 20.309 Hz\nMost recent transform: 54.601 ( 0.025 sec old)\nBuffer length: 3.299 sec\n"];
+"link" -> "object_12"[label="Broadcaster: /rtabmap/find_object_3d\nAverage rate: 5.710 Hz\nMost recent transform: 54.225 ( 0.401 sec old)\nBuffer length: 2.977 sec\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 54.626"[ shape=plaintext ] ;
+ }->"map";
+}

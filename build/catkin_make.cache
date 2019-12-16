@@ -1,0 +1,2 @@
+mybot_control:mybot_description:mybot_gazebo:mybot_moveit:mybot_navigation:mybot_object_recognition:ur5_description
+-DCATKIN_DEVEL_PREFIX=/home/radi/householder/devel -DCMAKE_INSTALL_PREFIX=/home/radi/householder/install -G Unix Makefiles

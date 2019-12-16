@@ -1,0 +1,11 @@
+digraph G {
+"odom" -> "chassis"[label="Broadcaster: /gazebo\nAverage rate: 20.202 Hz\nMost recent transform: 198.331 ( 0.006 sec old)\nBuffer length: 4.950 sec\n"];
+"camera/camera_link" -> "camera/camera_depth_frame"[label="Broadcaster: /camera_depth_frame\nAverage rate: 10.156 Hz\nMost recent transform: 198.407 ( -0.070 sec old)\nBuffer length: 4.923 sec\n"];
+"camera_link" -> "camera/camera_link"[label="Broadcaster: /hand_camera_calib\nAverage rate: 10.160 Hz\nMost recent transform: 198.363 ( -0.026 sec old)\nBuffer length: 4.823 sec\n"];
+"camera/camera_link" -> "camera/camera_rgb_frame"[label="Broadcaster: /camera_rgb_frame\nAverage rate: 10.165 Hz\nMost recent transform: 198.417 ( -0.080 sec old)\nBuffer length: 4.919 sec\n"];
+"odom" -> "camera_link"[label="Broadcaster: /odem_camera_frame\nAverage rate: 10.162 Hz\nMost recent transform: 198.342 ( -0.005 sec old)\nBuffer length: 4.822 sec\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 198.337"[ shape=plaintext ] ;
+ }->"odom";
+}

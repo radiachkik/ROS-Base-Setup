@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+	<!-- Load the robot model -->
+	<include file="$(find mybot_moveit)/launch/planning_context.launch" >
+		<arg name="load_robot_description" value="true"/>		
+	</include>
+	
+	<node name="mybot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
+	args="-urdf -param robot_description -model mybot" />
+
+	<!--remap joint values-->
+	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+		<rosparam param="/source_list">[/move_group/joint_states]</rosparam>
+	</node>
+
+	<!-- Combine joint values -->
+	<node pkg="robot_state_publisher" type="robot_state_publisher" name="rob_st_pub" output="screen">
+	</node>
+
+	<node pkg="tf" type="static_transform_publisher" name="kinect_rotation" args="0 0 0.1 -1.57 0 -1.57 chassis link 100"/>
+
+</launch>

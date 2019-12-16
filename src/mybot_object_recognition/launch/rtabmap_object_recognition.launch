@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+	<node name="find_object_3d" pkg="find_object_2d" type="find_object_2d" output="screen" ns="rtabmap">
+		<remap from="rgb/image_rect_color" to="/camera/color/image_raw"/>
+		<remap from="depth_registered/image_raw" to="/camera/depth/image_raw"/>
+		<remap from="depth_registered/camera_info" to="/camera/depth/camera_info"/>
+
+		<param name="gui" value="false" type="bool"/>
+	 	<param name="frame_id" type="string" value="chassis"/>
+		<param name="subscribe_depth" type="bool" value="true"/>
+		<param name="pnp" value="true" type="bool"/>
+		<param name="approx_sync" value="true" type="bool"/>
+		<param name="object_prefix" value="object" type="string"/>
+
+		<param name="objects_path" value="~/householder/src/mybot_object_recognition/bier_dose/" type="string"/>
+	</node>
+</launch>

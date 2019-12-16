@@ -1,0 +1,15 @@
+controller_list:
+  - name: fake_arm_controller
+    joints:
+      - gripper_extension_1
+      - gripper_extension_2
+      - gripper_extension_3
+      - gripper_extension_4
+  - name: fake_hand_controller
+    joints:
+      - gripper_extension_5
+      - arm_baser
+      - palm_left_finger
+      - left_finger_tip
+      - palm_right_finger
+      - right_finger_tip

@@ -1,0 +1,14 @@
+<launch>
+
+  <!-- loads moveit_controller_manager on the parameter server which is taken as argument 
+    if no argument is passed, moveit_simple_controller_manager will be set -->
+  <param name="moveit_controller_manager" value="moveit_simple_controller_manager/MoveItSimpleControllerManager"/>
+
+  <!-- loads ros_controllers to the param server -->
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find mybot_moveit)/config/ros_controllers.yaml" command="load"/>
+
+  <!-- Load the controllers -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" args="joint_state_controller hand_controller arm_controller" ns="/move_group" />
+</launch>
