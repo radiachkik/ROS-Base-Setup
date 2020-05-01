@@ -1,4 +1,4 @@
-# Mybot
+# ROS Base 
 
 Implementation / configuration of a custom robot working ROS equipped with some extra features:
 
